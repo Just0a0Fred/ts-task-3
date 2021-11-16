@@ -30,11 +30,73 @@ abstract class Contract implements IContract {
     }
 }
 
-export class SmartContract extends Contract{}
+export class SmartContract extends Contract{
+    public id: number;
+    public state: ContractState = ContractState.pending;
+    public value: Currency;
+    public receiver: ISecureVaultRequisites;
+    public sender: ISecureVaultRequisites;
+    
+    public closeTransfer(): void {
+        setTimeout(() => {
+            this.state = ContractState.close;
+        }, 3000)
+    }
 
-export class BankingContract extends Contract{}
+    public rejectTransfer(): void {
+        setTimeout(() => {
+            this.state = ContractState.rejected;
+        }, 3000)
+    }
 
-export class LogisticContract extends Contract{}
+    public signAndTransfer(): void {
+        this.state = ContractState.transfer;
+    }
+}
+
+export class BankingContract extends Contract{
+    public id: number;
+    public state: ContractState = ContractState.pending;
+    public value: Currency;
+    public receiver: ISecureVaultRequisites;
+    public sender: ISecureVaultRequisites;
+
+    public closeTransfer(): void {
+        this.state = ContractState.close;
+    }
+
+    public signAndTransfer(): void {
+        this.state = ContractState.transfer;
+    }
+
+    public rejectTransfer(): void {
+        this.state = ContractState.rejected;
+    }
+}
+
+export class LogisticContract extends Contract{
+    public id: number;
+    public state: ContractState = ContractState.pending;
+    public value: Currency;
+    public receiver: ISecureVaultRequisites;
+    public sender: ISecureVaultRequisites;
+
+    public closeTransfer(): void {
+        setTimeout(() => {
+            this.state = ContractState.close;
+        }, 6000)
+    }
+
+    public rejectTransfer(): void {
+        setTimeout(() => {
+            this.state = ContractState.rejected;
+        }, 6000)
+    }
+
+    public signAndTransfer(): void {
+        this.state = ContractState.transfer;
+    }
+}
 
 export interface IContract{
     /**
